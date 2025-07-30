@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المصاريف الشهرية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>حاسبة المصاريف الشهرية الأساسية</h1>
+        <p class="target-month">الشهر المستهدف: يوليو 2025</p>
+
+        <div class="section">
+            <h2>1. الدخل الشهري</h2>
+            <div class="input-group">
+                <label for="salary">راتبك الشهري المتوقع (₪):</label>
+                <input type="number" id="salary" placeholder="أدخل الراتب" value="0">
+            </div>
+            <div class="input-group">
+                <label for="extraIncome">أي دخل إضافي متوقع (₪):</label>
+                <input type="number" id="extraIncome" placeholder="أدخل الدخل الإضافي" value="0">
+            </div>
+            <p class="total-display">إجمالي الدخل المتوقع: <span id="totalIncome">0.00</span> ₪</p>
+        </div>
+
+        <div class="section">
+            <h2>2. المصاريف الثابتة</h2>
+            <div class="input-group">
+                <label for="rent">الإيجار/قسط المنزل (₪):</label>
+                <input type="number" id="rent" value="0">
+            </div>
+            <h3>فواتيرك الأساسية:</h3>
+            <div class="input-group">
+                <label for="electricity">- الكهرباء (₪):</label>
+                <input type="number" id="electricity" value="0">
+            </div>
+            <div class="input-group">
+                <label for="water">- الماء والبلدية (₪):</label>
+                <input type="number" id="water" value="0">
+            </div>
+            <div class="input-group">
+                <label for="internet">- الإنترنت (₪):</label>
+                <input type="number" id="internet" value="0">
+            </div>
+            <div class="input-group">
+                <label for="mobile">- الهاتف المحمول (₪):</label>
+                <input type="number" id="mobile" value="0">
+            </div>
+            <div class="input-group">
+                <label for="loans">أقساط القروض (₪):</label>
+                <input type="number" id="loans" value="0">
+            </div>
+            <div class="input-group">
+                <label for="subscriptions">اشتراكات أساسية (₪):</label>
+                <input type="number" id="subscriptions" value="0">
+            </div>
+            <div class="input-group">
+                <label for="fixedTransport">المواصلات الثابتة (₪):</label>
+                <input type="number" id="fixedTransport" value="0">
+            </div>
+            <p class="total-display">إجمالي المصاريف الثابتة المتوقعة: <span id="totalFixedExpenses">0.00</span> ₪</p>
+        </div>
+
+        <div class="section">
+            <h2>3. المصاريف المتغيرة</h2>
+            <h3>مصاريف الطعام:</h3>
+            <div class="input-group">
+                <label for="groceries">- البقالة والمشتريات المنزلية (₪):</label>
+                <input type="number" id="groceries" value="0">
+            </div>
+            <div class="input-group">
+                <label for="restaurants">- المطاعم والخارج (₪):</label>
+                <input type="number" id="restaurants" value="0">
+            </div>
+            <div class="input-group">
+                <label for="variableTransport">المواصلات (وقود/أجرة) (₪):</label>
+                <input type="number" id="variableTransport" value="0">
+            </div>
+            <div class="input-group">
+                <label for="healthCare">الصحة والعناية الشخصية (₪):</label>
+                <input type="number" id="healthCare" value="0">
+            </div>
+            <div class="input-group">
+                <label for="entertainment">الترفيه والتسلية (₪):</label>
+                <input type="number" id="entertainment" value="0">
+            </div>
+            <div class="input-group">
+                <label for="shopping">التسوق والملابس (₪):</label>
+                <input type="number" id="shopping" value="0">
+            </div>
+            <div class="input-group">
+                <label for="miscellaneous">المصاريف المتفرقة (₪):</label>
+                <input type="number" id="miscellaneous" value="0">
+            </div>
+            <p class="total-display">إجمالي المصاريف المتغيرة المتوقعة: <span id="totalVariableExpenses">0.00</span> ₪</p>
+        </div>
+
+        <button id="calculateBtn">حساب المصاريف الشهرية</button>
+
+        <div class="section summary">
+            <h2>4. الملخص الشهري</h2>
+            <p>إجمالي الدخل المتوقع: <span id="summaryTotalIncome">0.00</span> ₪</p>
+            <p>إجمالي المصاريف الثابتة: <span id="summaryFixedExpenses">0.00</span> ₪</p>
+            <p>إجمالي المصاريف المتغيرة: <span id="summaryVariableExpenses">0.00</span> ₪</p>
+            <p class="bold-line">إجمالي المصاريف الكلية: <span id="summaryAllExpenses">0.00</span> ₪</p>
+            <p class="bold-line">الرصيد النهائي المتوقع: <span id="remainingBalance">0.00</span> ₪</p>
+        </div>
+
+        <div class="section notes">
+            <h2>5. ملاحظات ومراجعة</h2>
+            <p id="notesMessage"></p>
+            <ul>
+                <li>هل هناك أي بند تجاوز الميزانية المتوقعة؟</li>
+                <li>ما هي المجالات التي يمكن التوفير فيها الشهر القادم؟</li>
+                <li>هل كان هناك أي مصاريف غير متوقعة؟</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all input elements that contribute to expenses or income
+    const incomeInputs = document.querySelectorAll('#salary, #extraIncome');
+    const fixedExpenseInputs = document.querySelectorAll(
+        '#rent, #electricity, #water, #internet, #mobile, #loans, #subscriptions, #fixedTransport'
+    );
+    const variableExpenseInputs = document.querySelectorAll(
+        '#groceries, #restaurants, #variableTransport, #healthCare, #entertainment, #shopping, #miscellaneous'
+    );
+    const calculateBtn = document.getElementById('calculateBtn');
+
+    // Get display elements
+    const totalIncomeSpan = document.getElementById('totalIncome');
+    const totalFixedExpensesSpan = document.getElementById('totalFixedExpenses');
+    const totalVariableExpensesSpan = document.getElementById('totalVariableExpenses');
+
+    const summaryTotalIncomeSpan = document.getElementById('summaryTotalIncome');
+    const summaryFixedExpensesSpan = document.getElementById('summaryFixedExpenses');
+    const summaryVariableExpensesSpan = document.getElementById('summaryVariableExpenses');
+    const summaryAllExpensesSpan = document.getElementById('summaryAllExpenses');
+    const remainingBalanceSpan = document.getElementById('remainingBalance');
+    const notesMessageP = document.getElementById('notesMessage');
+
+    // Function to calculate and update totals
+    function updateTotals() {
+        let salary = parseFloat(document.getElementById('salary').value) || 0;
+        let extraIncome = parseFloat(document.getElementById('extraIncome').value) || 0;
+        let totalIncome = salary + extraIncome;
+        totalIncomeSpan.textContent = totalIncome.toFixed(2);
+
+        let totalFixedExpenses = 0;
+        fixedExpenseInputs.forEach(input => {
+            totalFixedExpenses += parseFloat(input.value) || 0;
+        });
+        totalFixedExpensesSpan.textContent = totalFixedExpenses.toFixed(2);
+
+        let totalVariableExpenses = 0;
+        variableExpenseInputs.forEach(input => {
+            totalVariableExpenses += parseFloat(input.value) || 0;
+        });
+        totalVariableExpensesSpan.textContent = totalVariableExpenses.toFixed(2);
+    }
+
+    // Add event listeners to all input fields to update totals dynamically
+    incomeInputs.forEach(input => input.addEventListener('input', updateTotals));
+    fixedExpenseInputs.forEach(input => input.addEventListener('input', updateTotals));
+    variableExpenseInputs.forEach(input => input.addEventListener('input', updateTotals));
+
+    // Initial update when the page loads
+    updateTotals();
+
+    // Main calculation function when the button is clicked
+    calculateBtn.addEventListener('click', () => {
+        let salary = parseFloat(document.getElementById('salary').value) || 0;
+        let extraIncome = parseFloat(document.getElementById('extraIncome').value) || 0;
+        let totalIncome = salary + extraIncome;
+
+        let fixedExpenses = {};
+        fixedExpenses['rent'] = parseFloat(document.getElementById('rent').value) || 0;
+        fixedExpenses['electricity'] = parseFloat(document.getElementById('electricity').value) || 0;
+        fixedExpenses['water'] = parseFloat(document.getElementById('water').value) || 0;
+        fixedExpenses['internet'] = parseFloat(document.getElementById('internet').value) || 0;
+        fixedExpenses['mobile'] = parseFloat(document.getElementById('mobile').value) || 0;
+        fixedExpenses['loans'] = parseFloat(document.getElementById('loans').value) || 0;
+        fixedExpenses['subscriptions'] = parseFloat(document.getElementById('subscriptions').value) || 0;
+        fixedExpenses['fixedTransport'] = parseFloat(document.getElementById('fixedTransport').value) || 0;
+
+        let totalFixedExpenses = Object.values(fixedExpenses).reduce((sum, current) => sum + current, 0);
+
+        let variableExpenses = {};
+        variableExpenses['groceries'] = parseFloat(document.getElementById('groceries').value) || 0;
+        variableExpenses['restaurants'] = parseFloat(document.getElementById('restaurants').value) || 0;
+        variableExpenses['variableTransport'] = parseFloat(document.getElementById('variableTransport').value) || 0;
+        variableExpenses['healthCare'] = parseFloat(document.getElementById('healthCare').value) || 0;
+        variableExpenses['entertainment'] = parseFloat(document.getElementById('entertainment').value) || 0;
+        variableExpenses['shopping'] = parseFloat(document.getElementById('shopping').value) || 0;
+        variableExpenses['miscellaneous'] = parseFloat(document.getElementById('miscellaneous').value) || 0;
+
+        let totalVariableExpenses = Object.values(variableExpenses).reduce((sum, current) => sum + current, 0);
+
+        let totalAllExpenses = totalFixedExpenses + totalVariableExpenses;
+        let remainingBalance = totalIncome - totalAllExpenses;
+
+        // Update summary section
+        summaryTotalIncomeSpan.textContent = totalIncome.toFixed(2);
+        summaryFixedExpensesSpan.textContent = totalFixedExpenses.toFixed(2);
+        summaryVariableExpensesSpan.textContent = totalVariableExpenses.toFixed(2);
+        summaryAllExpensesSpan.textContent = totalAllExpenses.toFixed(2);
+        remainingBalanceSpan.textContent = remainingBalance.toFixed(2);
+
+        // Update notes and review section
+        notesMessageP.classList.remove('positive', 'neutral', 'negative'); // Clear previous classes
+        if (remainingBalance < 0) {
+            notesMessageP.textContent = 'ملاحظة: يبدو أن مصاريفك المتوقعة تتجاوز دخلك. قد تحتاج إلى مراجعة نفقاتك.';
+            notesMessageP.classList.add('negative');
+        } else if (remainingBalance > 0) {
+            notesMessageP.textContent = 'ملاحظة: لديك رصيد إيجابي متبقي! فكر في ادخاره أو استثماره.';
+            notesMessageP.classList.add('positive');
+        } else {
+            notesMessageP.textContent = 'ملاحظة: دخلك ومصاريفك متوازنة تمامًا لهذا الشهر.';
+            notesMessageP.classList.add('neutral');
+        }
+    });
+});
